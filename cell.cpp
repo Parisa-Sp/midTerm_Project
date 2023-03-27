@@ -45,7 +45,9 @@ public:
         }
         return complement;
     }
-
+	void print_RNA_complement(){
+		cout <<"RNA complement:" << get_DNA_complement(RNA) << endl;;
+	}
     void create_DNA2() {
         DNA2 = get_DNA_complement(DNA1);
     }
@@ -59,18 +61,39 @@ public:
             }
         }
         temp = n;
+        char newCharC;
+        switch(newChar){
+        	case 'A':
+        		newCharC = 'T';
+        		break;
+        	case 'T':
+        		newCharC = 'A';
+        		break;
+        	case 'C':
+        		newCharC = 'G';
+        		break;
+        	case 'G':
+        		newCharC = 'C';
+        		break;
+		}
         for (int i = 0; i < DNA1.length() && temp > 0; i++) {
             if (DNA1[i] == oldChar) {
                 DNA1[i] = newChar;
+                DNA2[i] = newCharC;
                 temp--;
             }
+            else if(DNA2[i] == oldChar){
+            	DNA2[i] = newChar;
+                DNA1[i] = newCharC;
+                temp--;
+			}
         }
-        create_DNA2();
     }
+
 };
 
 int main() {
-    DNARNA myDNA("ATCGAATCG", "CAGCGCG");
+    DNARNA myDNA("ATCGATCG", "ACGGCCTAA");
     myDNA.create_DNA2();
     myDNA.smallMutate('A','C',2);
     cout << "RNA: " << myDNA.get_RNA() << endl;
