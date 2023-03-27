@@ -89,13 +89,41 @@ public:
 			}
         }
     }
-
+    void bigMutate(string S1, string S2) {
+        size_t posR = RNA.find(S1);
+        if (posR != string::npos) {
+            RNA.replace(posR, S1.length(), S2);
+        }
+        size_t posD1 = -1;
+        size_t posD2 = -1;
+        posD1 = DNA1.find(S1);
+        posD2 = DNA2.find(S1);
+        if(posD1 != string::npos && posD2 != string::npos)
+        {
+        	if(posD1 < posD2){
+            	DNA1.replace(posD1, S1.length(), S2);
+        		DNA2 = get_DNA_complement(DNA1);
+			}
+			else{
+				DNA2.replace(posD2, S1.length(), S2);
+        		DNA1 = get_DNA_complement(DNA2);
+			}	
+		}
+		else if (posD1 != string::npos){
+			DNA1.replace(posD1, S1.length(), S2);
+        	DNA2 = get_DNA_complement(DNA1);
+		}
+		else if (posD2 != string::npos){
+			DNA2.replace(posD2, S1.length(), S2);
+        	DNA1 = get_DNA_complement(DNA2);
+		}
+    }
 };
 
 int main() {
-    DNARNA myDNA("ATCGATCG", "ACGGCCTAA");
+    DNARNA myDNA("ATCGATCG", "AAGTCTCAGT");
     myDNA.create_DNA2();
-    myDNA.smallMutate('A','C',2);
+    myDNA.bigMutate("TCAG","ATC");
     cout << "RNA: " << myDNA.get_RNA() << endl;
     cout << "DNA1: " << myDNA.get_DNA1() << endl;
     cout << "DNA2: " << myDNA.get_DNA2() << endl;
