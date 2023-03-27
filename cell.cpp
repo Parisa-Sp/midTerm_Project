@@ -49,11 +49,30 @@ public:
     void create_DNA2() {
         DNA2 = get_DNA_complement(DNA1);
     }
+    
+    void smallMutate(char oldChar, char newChar, int n) {
+    	int temp = n;
+        for (int i = 0; i < RNA.length() && temp > 0; i++) {
+            if (RNA[i] == oldChar) {
+                RNA[i] = newChar;
+                temp--;
+            }
+        }
+        temp = n;
+        for (int i = 0; i < DNA1.length() && temp > 0; i++) {
+            if (DNA1[i] == oldChar) {
+                DNA1[i] = newChar;
+                temp--;
+            }
+        }
+        create_DNA2();
+    }
 };
 
 int main() {
-    DNARNA myDNA("ATCGATCG", "CGCGCG");
+    DNARNA myDNA("ATCGAATCG", "CAGCGCG");
     myDNA.create_DNA2();
+    myDNA.smallMutate('A','C',2);
     cout << "RNA: " << myDNA.get_RNA() << endl;
     cout << "DNA1: " << myDNA.get_DNA1() << endl;
     cout << "DNA2: " << myDNA.get_DNA2() << endl;
