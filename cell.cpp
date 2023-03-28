@@ -246,7 +246,17 @@ class cell: public DNARNA {
             genes[m].smallMutate(oldChar, newChar,n);
         }
         
-        
+        void bigMutate(string S1,int n1, string S2,int n2) {
+        int posD1 = -1;
+        int posD2 = -1;
+        posD1 = KMPSearch(genes[n1].get_DNA1,S1);
+        posD2 = KMPSearch(genes[n2].get_DNA2,S2);
+        if(posD1 != -1 && posD2 != -1)
+        {
+        	genes[n1].bigMutate(S1,S2);
+			genes[n2].bigMutate(S2,S1);	
+		}
+    }
         void reverseMutate(string s1,int n){
         	genes[n].reverseMutate(s1);
 	}
