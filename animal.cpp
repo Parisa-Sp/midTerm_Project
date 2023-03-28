@@ -27,6 +27,12 @@ class Animal:public cell{
 		}
 		return get_similarity(a,b);
 	}
+	bool operator==(Animal& other) {
+		if(similarity(other) >= 70){
+			return true;
+		}
+		return false;
+    }
 };
 
 int main(){
@@ -34,6 +40,9 @@ int main(){
 	a.set_genes();
 	Animal b(2);
 	b.set_genes();
-	cout << a.similarity(b);
+	if(a==b){
+		cout <<"hello";
+	}
+
 }
 
