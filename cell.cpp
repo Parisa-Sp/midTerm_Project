@@ -48,6 +48,43 @@ string reverseString(string str) {
     return str;
 }
 
+bool is_palindrome(string s) {
+    int n = s.length();
+    for (int i = 0; i < n/2; i++) {
+    	switch(s[i]){
+    		case 'A':
+    			if(s[n-i-1] != 'T')
+    				return false;
+    			break;
+    		case 'T':
+    			if(s[n-i-1] != 'A')
+    				return false;
+    			break;
+    		case 'C':
+    			if(s[n-i-1] != 'G')
+    				return false;
+    			break;
+    		case 'G':
+    			if(s[n-i-1] != 'C')
+    				return false;
+    			break;	
+		}
+    }
+    return true;
+}
+
+void find_palindromic_substrings(string dna) {
+    int n = dna.length();
+    for (int i = 0; i < n; i++) {
+        for (int j = i+3; j <= n; j++) {
+            string substr = dna.substr(i, j-i);
+            if(is_palindrome(substr)){
+            	cout << substr << endl;
+			}
+        }
+    }
+}
+
 class DNARNA {
 private:
     string RNA;
@@ -249,8 +286,8 @@ class cell: public DNARNA {
         void bigMutate(string S1,int n1, string S2,int n2) {
         int posD1 = -1;
         int posD2 = -1;
-        posD1 = KMPSearch(genes[n1].get_DNA1,S1);
-        posD2 = KMPSearch(genes[n2].get_DNA2,S2);
+        posD1 = KMPSearch(genes[n1].get_DNA1(),S1);
+        posD2 = KMPSearch(genes[n2].get_DNA2(),S2);
         if(posD1 != -1 && posD2 != -1)
         {
         	genes[n1].bigMutate(S1,S2);
@@ -260,6 +297,9 @@ class cell: public DNARNA {
         void reverseMutate(string s1,int n){
         	genes[n].reverseMutate(s1);
 	}
+		void palindrom(int n){
+			find_palindromic_substrings(genes[n].get_DNA1());
+		}
         
 
 
