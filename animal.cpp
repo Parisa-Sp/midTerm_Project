@@ -49,8 +49,30 @@ class Animal:public cell{
 		for (int i = 0 ; i < get_genes().size();i++){
 			born.add_gene(dnas[i]);
 		}
-    	
+    	return born;
 	}
+	Animal operator+(Animal& other){
+		vector<string> dnas;
+		Animal born(get_genes().size());
+		Animal a = AsexualProduction();
+		Animal b = other.AsexualProduction();
+		if(get_genes().size()%2 == 1){
+			return NULL;
+		}
+		for (auto& gene : a.get_genes()) {
+			dnas.push_back(gene.get_DNA1());
+			
+		}
+		for (auto& gene : b.get_genes()) {
+			dnas.push_back(gene.get_DNA1());
+			
+		}
+		shuffle(dnas.begin(), dnas.end(), g);
+		for (int i = 0 ; i < a.get_genes().size();i++){
+			born.add_gene(dnas[i]);
+		}
+        return born;
+    }
 };
 
 int main(){
