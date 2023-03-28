@@ -177,7 +177,14 @@ class cell: public DNARNA {
         vector<DNARNA> genes;
         int numberOfGenes;
     public:
-        cell(){
+        cell(int n){
+        	numberOfGenes = n;
+        	for(int i = 0 ; i < n ;i++){
+        		string dna;
+        		cout << "Enter DNA of Chromosome "<< i<<":";
+        		cin >> dna;
+        		add_gene(dna);
+			}
         }
         void add_gene(string DNA1) {
             DNARNA new_gene;
@@ -187,6 +194,7 @@ class cell: public DNARNA {
         void smallMutate(char oldChar, char newChar, int n,int m) {
             genes[m].smallMutate(oldChar, newChar,n);
         }
+        
         
         void reverseMutate(string s1,int n){
         	genes[n].reverseMutate(s1);
@@ -201,6 +209,7 @@ class cell: public DNARNA {
 };
 int main() {
     DNARNA myDNA;
+    cell a(3);
     myDNA.set_DNARNA("ATCGATCG", "AAGTCTCAGT");
     myDNA.create_DNA2();
     myDNA.bigMutate("TCAG","ATC");
