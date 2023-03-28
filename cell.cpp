@@ -216,18 +216,25 @@ class cell: public DNARNA {
     public:
         cell(int n){
         	numberOfGenes = n;
-        	for(int i = 0 ; i < n ;i++){
-        		string dna;
-        		cout << "Enter DNA of Chromosome "<< i<<":";
-        		cin >> dna;
-        		add_gene(dna);
-			}
+        	
         }
+        
         void add_gene(string DNA1) {
             DNARNA new_gene;
             new_gene.set_DNARNA("",DNA1);
             genes.push_back(new_gene);
         }
+        void set_genes(){
+        	for(int i = 0 ; i < numberOfGenes ;i++){
+        		string dna;
+        		cout << "Enter DNA of Chromosome "<< i<<":";
+        		cin >> dna;
+        		add_gene(dna);
+			}
+		}
+		vector<DNARNA> get_genes(){
+			return genes;
+		}
         void deadCell(){
         	vector<DNARNA> goodGenes;
         	for (auto& gene : genes) {
