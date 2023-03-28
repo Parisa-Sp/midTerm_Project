@@ -191,6 +191,57 @@ class cell: public DNARNA {
             new_gene.set_DNARNA("",DNA1);
             genes.push_back(new_gene);
         }
+        void deadCell(){
+        	vector<DNARNA> goodGenes;
+        	for (auto& gene : genes) {
+        		int at=0,cg=0;
+        		int notLinked = 0;
+        		cout << gene.get_DNA1();
+        		for(int i = 0 ; i < gene.get_DNA1().length() ; i++){
+        			switch(gene.get_DNA1()[i]){
+        				case 'A':
+        					if(gene.get_DNA2()[i] == 'T'){
+        						at++;
+							}
+							else{
+								notLinked++;
+							}
+        					break;
+        				case 'T':
+        					if(gene.get_DNA2()[i] == 'A'){
+        						at++;
+							}
+							else{
+								notLinked++;
+							}
+        					break;
+        				case 'C':
+        					if(gene.get_DNA2()[i] == 'G'){
+        						cg++;
+							}
+							else{
+								notLinked++;
+							}
+        					break;
+        				case 'G':
+        					if(gene.get_DNA2()[i] == 'C'){
+        						cg++;
+							}
+							else{
+								notLinked++;
+							}
+        					break;
+					}
+        			if(notLinked < 5 && at / cg < 3)
+        			{
+        				goodGenes.push_back(gene);
+        				
+					}
+				}
+				
+        	}
+			genes = goodGenes;
+		}
         void smallMutate(char oldChar, char newChar, int n,int m) {
             genes[m].smallMutate(oldChar, newChar,n);
         }
