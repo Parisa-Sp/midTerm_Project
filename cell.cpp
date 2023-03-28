@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <bits/stdc++.h>
+#include <vector>
 using namespace std;
 
 
@@ -48,12 +49,15 @@ string reverseString(string str) {
 }
 
 class DNARNA {
-public:
+private:
     string RNA;
     string DNA1;
     string DNA2;
+public:
+    
 
-    DNARNA(string rna, string dna1) {
+    void set_DNARNA(string rna, string dna1)
+    {
         RNA = rna;
         DNA1 = dna1;
         DNA2 = "";
@@ -168,9 +172,36 @@ public:
     	
 	}
 };
+class cell: public DNARNA {
+    private:
+        vector<DNARNA> genes;
+        int numberOfGenes;
+    public:
+        cell(){
+        }
+        void add_gene(string DNA1) {
+            DNARNA new_gene;
+            new_gene.set_DNARNA("",DNA1);
+            genes.push_back(new_gene);
+        }
+        void smallMutate(char oldChar, char newChar, int n,int m) {
+            genes[m].smallMutate(oldChar, newChar,n);
+        }
+        
+        void reverseMutate(string s1,int n){
+        	genes[n].reverseMutate(s1);
+	}
+        
 
+
+
+
+
+
+};
 int main() {
-    DNARNA myDNA("ATCGATCG", "AAGTCTCAGT");
+    DNARNA myDNA;
+    myDNA.set_DNARNA("ATCGATCG", "AAGTCTCAGT");
     myDNA.create_DNA2();
     myDNA.bigMutate("TCAG","ATC");
     cout << "RNA: " << myDNA.get_RNA() << endl;
