@@ -1,7 +1,51 @@
 #include <iostream>
 #include <string>
-
+#include <bits/stdc++.h>
 using namespace std;
+
+
+vector<int> prefix_function(string s) {
+    int n = s.length();
+    vector<int> pi(n);
+    for (int i = 1; i < n; i++) {
+        int j = pi[i - 1];
+        while (j > 0 && s[i] != s[j]) {
+            j = pi[j - 1];
+        }
+        if (s[i] == s[j]) {
+            j++;
+        }
+        pi[i] = j;
+    }
+    return pi;
+}
+
+int KMPSearch(string text, string pattern) {
+    vector<int> pi = prefix_function(pattern);
+    int n = text.length();
+    int m = pattern.length();
+    int j = 0;
+    for (int i = 0; i < n; i++) {
+        while (j > 0 && text[i] != pattern[j]) {
+            j = pi[j - 1];
+        }
+        if (text[i] == pattern[j]) {
+            j++;
+        }
+        if (j == m) {
+        	return i - m + 1;
+        }
+    }
+    return -1;
+}
+
+string reverseString(string str) {
+    int n = str.length();
+    for (int i = 0; i < n / 2; i++) {
+        swap(str[i], str[n - i - 1]);
+    }
+    return str;
+}
 
 class DNARNA {
 public:
@@ -90,15 +134,15 @@ public:
         }
     }
     void bigMutate(string S1, string S2) {
-        size_t posR = RNA.find(S1);
-        if (posR != string::npos) {
+        int posR = KMPSearch(RNA,S1);
+        if (posR != -1) {
             RNA.replace(posR, S1.length(), S2);
         }
-        size_t posD1 = -1;
-        size_t posD2 = -1;
-        posD1 = DNA1.find(S1);
-        posD2 = DNA2.find(S1);
-        if(posD1 != string::npos && posD2 != string::npos)
+        int posD1 = -1;
+        int posD2 = -1;
+        posD1 = KMPSearch(DNA1,S1);
+        posD2 = KMPSearch(DNA2,S1);
+        if(posD1 != -1 && posD2 != -1)
         {
         	if(posD1 < posD2){
             	DNA1.replace(posD1, S1.length(), S2);
@@ -109,15 +153,20 @@ public:
         		DNA1 = get_DNA_complement(DNA2);
 			}	
 		}
-		else if (posD1 != string::npos){
+		else if (posD1 != -1){
 			DNA1.replace(posD1, S1.length(), S2);
         	DNA2 = get_DNA_complement(DNA1);
 		}
-		else if (posD2 != string::npos){
+		else if (posD2 != -1){
 			DNA2.replace(posD2, S1.length(), S2);
         	DNA1 = get_DNA_complement(DNA2);
 		}
     }
+    void reverseMutate(string s1){
+    	string s2 = reverseString(s1);
+    	bigMutate(s1,s2);
+    	
+	}
 };
 
 int main() {
