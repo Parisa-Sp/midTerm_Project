@@ -3,6 +3,11 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <random>
+
+using namespace std;
+random_device rd;
+mt19937 g(rd());
 double get_similarity(const vector<string>& v1, const vector<string>& v2) {
     vector<string> common;
     set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(common));
@@ -33,6 +38,19 @@ class Animal:public cell{
 		}
 		return false;
     }
+    Animal AsexualProduction(){
+    	vector<string> dnas;
+    	for (auto& gene : get_genes()) {
+			dnas.push_back(gene.get_DNA1());
+			dnas.push_back(gene.get_DNA1());
+		}
+		shuffle(dnas.begin(), dnas.end(), g);
+		Animal born(get_genes().size());
+		for (int i = 0 ; i < get_genes().size();i++){
+			born.add_gene(dnas[i]);
+		}
+    	
+	}
 };
 
 int main(){
