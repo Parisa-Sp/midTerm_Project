@@ -78,7 +78,7 @@ void find_palindromic_substrings(string dna) {
     for (int i = 0; i < n; i++) {
         for (int j = i+3; j <= n; j++) {
             string substr = dna.substr(i, j-i);
-            if(is_palindrome(substr)){
+            if(is_palindrome(substr) && substr.length()%2==0){
             	cout << substr << endl;
 			}
         }
@@ -311,6 +311,7 @@ class cell: public DNARNA {
 int main() {
     DNARNA myDNA;
     cell a(3);
+    a.palindrom(2);
     myDNA.set_DNARNA("ATCGATCG", "AAGTCTCAGT");
     myDNA.create_DNA2();
     myDNA.bigMutate("TCAG","ATC");
