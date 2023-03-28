@@ -1,3 +1,5 @@
+#ifndef MYFILE_H
+#define MYFILE_H
 #include <iostream>
 #include <string>
 #include <bits/stdc++.h>
@@ -303,3 +305,4 @@ class cell: public DNARNA {
 
 };
 
+#endif // MYFILE_H
