@@ -20,7 +20,7 @@ vector<int> prefix_function(string s) {
     }
     return pi;
 }
-
+//KMP algorithm search to find a pattern inside a string
 int KMPSearch(string text, string pattern) {
     vector<int> pi = prefix_function(pattern);
     int n = text.length();
@@ -39,7 +39,7 @@ int KMPSearch(string text, string pattern) {
     }
     return -1;
 }
-
+//return mirror of a string
 string reverseString(string str) {
     int n = str.length();
     for (int i = 0; i < n / 2; i++) {
@@ -47,7 +47,7 @@ string reverseString(string str) {
     }
     return str;
 }
-
+//check a string is palindrome or not for DNAs
 bool is_palindrome(string s) {
     int n = s.length();
     for (int i = 0; i < n/2; i++) {
@@ -72,7 +72,7 @@ bool is_palindrome(string s) {
     }
     return true;
 }
-
+//find all palindromic substring of a dna 
 void find_palindromic_substrings(string dna) {
     int n = dna.length();
     for (int i = 0; i < n; i++) {
@@ -84,7 +84,7 @@ void find_palindromic_substrings(string dna) {
         }
     }
 }
-
+//DNARNA class that contains Rna DNA and it's complement
 class DNARNA {
 private:
     string RNA;
@@ -92,26 +92,26 @@ private:
     string DNA2;
 public:
     
-
+	//set the rna and dna of gene
     void set_DNARNA(string rna, string dna1)
     {
         RNA = rna;
         DNA1 = dna1;
         DNA2 = "";
     }
-
+	//return the RNA of gene
     string get_RNA() {
         return RNA;
     }
-
+	//return the first DNA of gene
     string get_DNA1() {
         return DNA1;
     }
-
+	//return the second DNA of gene
     string get_DNA2() {
         return DNA2;
     }
-
+	//return complement of a DNA
     string get_DNA_complement(string rna) {
         string complement = "";
         for (int i = 0; i < rna.length(); i++) {
@@ -130,13 +130,15 @@ public:
         }
         return complement;
     }
+    //return complement of RNA of gene
 	void print_RNA_complement(){
 		cout <<"RNA complement:" << get_DNA_complement(RNA) << endl;;
 	}
+	//create DNA2 with calculating complement of DNA1
     void create_DNA2() {
         DNA2 = get_DNA_complement(DNA1);
     }
-    
+    //small mutation of a gene
     void smallMutate(char oldChar, char newChar, int n) {
     	int temp = n;
         for (int i = 0; i < RNA.length() && temp > 0; i++) {
@@ -175,6 +177,7 @@ public:
 			}
         }
     }
+    //big mutation of a gene
     void bigMutate(string S1, string S2) {
         int posR = KMPSearch(RNA,S1);
         if (posR != -1) {
@@ -204,6 +207,7 @@ public:
         	DNA1 = get_DNA_complement(DNA2);
 		}
     }
+    //reverse mutation of a gene
     void reverseMutate(string s1){
     	string s2 = reverseString(s1);
     	bigMutate(s1,s2);
@@ -239,6 +243,7 @@ class cell: public DNARNA {
 		vector<DNARNA> get_genes(){
 			return genes;
 		}
+		//death cell function that delete some genes
         void deadCell(){
         	vector<DNARNA> goodGenes;
         	for (auto& gene : genes) {
@@ -290,10 +295,11 @@ class cell: public DNARNA {
         	}
 			genes = goodGenes;
 		}
+		//small mutation of cell
         void smallMutate(char oldChar, char newChar, int n,int m) {
             genes[m].smallMutate(oldChar, newChar,n);
         }
-        
+        //big mutation of cell
         void bigMutate(string S1,int n1, string S2,int n2) {
         int posD1 = -1;
         int posD2 = -1;
@@ -305,9 +311,11 @@ class cell: public DNARNA {
 			genes[n2].bigMutate(S2,S1);	
 		}
     }
+    	//reverse mutation of a cell
         void reverseMutate(string s1,int n){
         	genes[n].reverseMutate(s1);
 	}
+		//return all palindrom substrings of DNA1
 		void palindrom(int n){
 			find_palindromic_substrings(genes[n].get_DNA1());
 		}

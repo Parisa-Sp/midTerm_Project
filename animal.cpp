@@ -8,6 +8,7 @@
 using namespace std;
 random_device rd;
 mt19937 g(rd());
+//get similarit of two vector of string
 double get_similarity(const vector<string>& v1, const vector<string>& v2) {
     vector<string> common;
     set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(common));
@@ -15,6 +16,7 @@ double get_similarity(const vector<string>& v1, const vector<string>& v2) {
     double sim = (double)common.size() / max(v1.size(), v2.size()) * 100.0;
     return sim;
 }
+//return longest common substring of a vector of strings
 string longest_common_substring(vector<string>& strs) {
     if (strs.empty()) {
         return "";
@@ -37,12 +39,13 @@ string longest_common_substring(vector<string>& strs) {
     }
     return result;
 }
-
+//animal class inherit cell
 class Animal:public cell{
 	public:
 	Animal(int n):cell(n){	
 	}
 	friend class virus;
+	//return similarity of two animals with checking their similarity of genes
 	float similarity(Animal temp){
 		vector<string> a;
 		vector<string> b;
@@ -56,12 +59,14 @@ class Animal:public cell{
 		}
 		return get_similarity(a,b);
 	}
+	//overriding == operator with checking the similarity of two animals and if its more than 70% return true otherwise return false
 	bool operator==(Animal& other) {
 		if(similarity(other) >= 70){
 			return true;
 		}
 		return false;
     }
+    //Asexual Reproduction that pick n random of their genes
     Animal AsexualProduction(){
     	vector<string> dnas;
     	for (auto& gene : get_genes()) {
@@ -75,6 +80,7 @@ class Animal:public cell{
 		}
     	return born;
 	}
+	////sexual Reproduction that pick n random of two animal genes
 	Animal operator+(Animal& other){
 		vector<string> dnas;
 		Animal born(get_genes().size());
@@ -98,11 +104,13 @@ class Animal:public cell{
         return born;
     }
 };
+//virus class that just contain RNA
 class virus:public DNARNA{
 	public:
 	virus(string rna){
 		set_DNARNA(rna,"");
 	}
+	//check if a virus is dangerous for a animal with checking the longest common substring of genes of them with rna of virus
 	bool dangerous(Animal temp){
 		vector<string> DNA1s;
 		vector<string> DNA2s;
