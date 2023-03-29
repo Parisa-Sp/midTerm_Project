@@ -15,10 +15,34 @@ double get_similarity(const vector<string>& v1, const vector<string>& v2) {
     double sim = (double)common.size() / max(v1.size(), v2.size()) * 100.0;
     return sim;
 }
+string longest_common_substring(vector<string>& strs) {
+    if (strs.empty()) {
+        return "";
+    }
+    string result;
+    for (int i = 0; i < strs[0].size(); i++) {
+        for (int j = i + 1; j <= strs[0].size(); j++) {
+            string substring = strs[0].substr(i, j - i);
+            bool found = true;
+            for (int k = 1; k < strs.size(); k++) {
+                if (strs[k].find(substring) == string::npos) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found && substring.size() > result.size()) {
+                result = substring;
+            }
+        }
+    }
+    return result;
+}
+
 class Animal:public cell{
 	public:
 	Animal(int n):cell(n){	
 	}
+	friend class virus;
 	float similarity(Animal temp){
 		vector<string> a;
 		vector<string> b;
@@ -74,15 +98,21 @@ class Animal:public cell{
         return born;
     }
 };
-
-int main(){
-	Animal a(2);
-	a.set_genes();
-	Animal b(2);
-	b.set_genes();
-	if(a==b){
-		cout <<"hello";
+class virus:public DNARNA{
+	virus(string rna){
+		set_DNARNA(rna,"");
 	}
+	bool dangerous(Animal temp){
+		vector<string> DNA1s;
+		vector<string> DNA2s;
+		for (auto& gene : temp.get_genes()) {
+			DNA1s.push_back(gene.get_DNA1());
+			DNA2s.push_back(gene.get_DNA2());	
+		}
+		string rna1 = longest_common_substring(DNA1s);
+		string rna2 = longest_common_substring(DNA2s);
+		return rna1 == get_RNA() || rna2 == get_RNA();
+	}
+};
 
-}
 
