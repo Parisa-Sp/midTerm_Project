@@ -233,6 +233,9 @@ class cell: public DNARNA {
         		add_gene(dna);
 			}
 		}
+		void set_number_genes(int n){
+        	numberOfGenes = n;
+		}
 		vector<DNARNA> get_genes(){
 			return genes;
 		}

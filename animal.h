@@ -1,4 +1,6 @@
-#include "cell.h"
+#ifndef MYFILE_H
+#define MYFILE_H
+#include "cell.cpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -115,5 +117,4 @@ class virus:public DNARNA{
 		return rna1 == get_RNA() || rna2 == get_RNA();
 	}
 };
-
-
+#endif // MYFILE_H
