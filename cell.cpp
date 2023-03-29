@@ -161,6 +161,7 @@ public:
         		newCharC = 'C';
         		break;
 		}
+		cout << newCharC << endl;
         for (int i = 0; i < DNA1.length() && temp > 0; i++) {
             if (DNA1[i] == oldChar) {
                 DNA1[i] = newChar;

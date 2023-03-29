@@ -81,7 +81,7 @@ class Animal:public cell{
 		Animal a = AsexualProduction();
 		Animal b = other.AsexualProduction();
 		if(get_genes().size()%2 == 1){
-			return NULL;
+			return born;
 		}
 		for (auto& gene : a.get_genes()) {
 			dnas.push_back(gene.get_DNA1());
