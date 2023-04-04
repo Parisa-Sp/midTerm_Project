@@ -8,7 +8,7 @@ vector<DNARNA> genes;
 vector<Animal> animals;
 vector<cell> cells;
 
-void (print_gene_Data(DNARNA a)){
+void print_gene_Data(DNARNA a){
 	cout << "RNA:" << a.get_RNA()<<endl;;
 	cout << "DNA1:" << a.get_DNA1()<<endl;
 	cout << "DNA2:" << a.get_DNA2()<<endl;
