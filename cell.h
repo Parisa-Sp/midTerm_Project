@@ -1,11 +1,9 @@
-#ifndef MYFILE_H
-#define MYFILE_H
+#pragma once
 #include <iostream>
 #include <string>
 #include <bits/stdc++.h>
 #include <vector>
 using namespace std;
-
 
 vector<int> prefix_function(string s) {
     int n = s.length();
@@ -22,7 +20,7 @@ vector<int> prefix_function(string s) {
     }
     return pi;
 }
-
+//KMP algorithm search to find a pattern inside a string
 int KMPSearch(string text, string pattern) {
     vector<int> pi = prefix_function(pattern);
     int n = text.length();
@@ -41,15 +39,7 @@ int KMPSearch(string text, string pattern) {
     }
     return -1;
 }
-
-string reverseString(string str) {
-    int n = str.length();
-    for (int i = 0; i < n / 2; i++) {
-        swap(str[i], str[n - i - 1]);
-    }
-    return str;
-}
-
+//check a string is palindrome or not for DNAs
 bool is_palindrome(string s) {
     int n = s.length();
     for (int i = 0; i < n/2; i++) {
@@ -74,7 +64,7 @@ bool is_palindrome(string s) {
     }
     return true;
 }
-
+//find all palindromic substring of a dna 
 void find_palindromic_substrings(string dna) {
     int n = dna.length();
     for (int i = 0; i < n; i++) {
@@ -86,7 +76,7 @@ void find_palindromic_substrings(string dna) {
         }
     }
 }
-
+//DNARNA class that contains Rna DNA and it's complement
 class DNARNA {
 private:
     string RNA;
@@ -94,26 +84,40 @@ private:
     string DNA2;
 public:
     
-
+	//set the rna and dna of gene
     void set_DNARNA(string rna, string dna1)
     {
         RNA = rna;
         DNA1 = dna1;
         DNA2 = "";
     }
-
+	//return the RNA of gene
     string get_RNA() {
         return RNA;
     }
-
+	//return the first DNA of gene
     string get_DNA1() {
         return DNA1;
     }
-
+	//return the second DNA of gene
     string get_DNA2() {
         return DNA2;
     }
-
+    //set the first DNA of gene
+    void set_DNA1(string dna1) {
+        DNA1 = dna1;
+    }
+    //set the second DNA of gene
+    void set_DNA2(string dna2) {
+        DNA2 = dna2;
+    }
+    //display genome values
+    void print_gene_Data(){
+	cout << "RNA:" << get_RNA()<<endl;;
+	cout << "DNA1:" << get_DNA1()<<endl;
+	cout << "DNA2:" << get_DNA2()<<endl;
+    }
+	//return complement of a DNA
     string get_DNA_complement(string rna) {
         string complement = "";
         for (int i = 0; i < rna.length(); i++) {
@@ -132,13 +136,15 @@ public:
         }
         return complement;
     }
+    //return complement of RNA of gene
 	void print_RNA_complement(){
 		cout <<"RNA complement:" << get_DNA_complement(RNA) << endl;;
 	}
+	//create DNA2 with calculating complement of DNA1
     void create_DNA2() {
         DNA2 = get_DNA_complement(DNA1);
     }
-    
+    //small mutation of a gene
     void smallMutate(char oldChar, char newChar, int n) {
     	int temp = n;
         for (int i = 0; i < RNA.length() && temp > 0; i++) {
@@ -163,7 +169,6 @@ public:
         		newCharC = 'C';
         		break;
 		}
-		cout << newCharC << endl;
         for (int i = 0; i < DNA1.length() && temp > 0; i++) {
             if (DNA1[i] == oldChar) {
                 DNA1[i] = newChar;
@@ -177,6 +182,7 @@ public:
 			}
         }
     }
+    //big mutation of a gene
     void bigMutate(string S1, string S2) {
         int posR = KMPSearch(RNA,S1);
         if (posR != -1) {
@@ -206,10 +212,11 @@ public:
         	DNA1 = get_DNA_complement(DNA2);
 		}
     }
-    void reverseMutate(string s1){
-    	string s2 = reverseString(s1);
+    //reverse mutation of a gene
+    void reverseMutate(string s2){
+        string s1 = s2;
+        reverse(s2.begin() , s2.end());
     	bigMutate(s1,s2);
-    	
 	}
 };
 class cell: public DNARNA {
@@ -219,20 +226,33 @@ class cell: public DNARNA {
     public:
         cell(int n){
         	numberOfGenes = n;
-        	
         }
         
         void add_gene(string DNA1) {
             DNARNA new_gene;
             new_gene.set_DNARNA("",DNA1);
+            new_gene.create_DNA2();
             genes.push_back(new_gene);
         }
-        void set_genes(){
+        void set_genes_auto(){
         	for(int i = 0 ; i < numberOfGenes ;i++){
         		string dna;
         		cout << "Enter DNA of Chromosome "<< i<<":";
         		cin >> dna;
         		add_gene(dna);
+			}
+		}
+        void set_genes_manual(){
+        	for(int i = 0 ; i < numberOfGenes ;i++){
+        		string dna1 , dna2;
+                DNARNA new_gene;
+        		cout << "Enter DNA1 of Chromosome "<< i<<":";
+        		cin >> dna1;
+                cout << "Enter DNA2 of Chromosome "<< i<<":";
+                cin >> dna2;
+                new_gene.set_DNA1(dna1);
+                new_gene.set_DNA2(dna2);
+                genes.push_back(new_gene);
 			}
 		}
 		void set_number_genes(int n){
@@ -241,12 +261,23 @@ class cell: public DNARNA {
 		vector<DNARNA> get_genes(){
 			return genes;
 		}
-        void deadCell(){
-        	vector<DNARNA> goodGenes;
+        void set_genes (vector<DNARNA> a){
+            genes = a;
+        }
+        int get_numberofgenes (){
+            return numberOfGenes;
+        }
+        void display_cell(){
+            for(int i = 0 ; i < numberOfGenes ;i++){
+                cout << "Chromosome "<< i<< endl;
+                genes[i].print_gene_Data();
+            }
+        }
+		//dead cell function that delete cell
+        bool deadCell(){
         	for (auto& gene : genes) {
         		int at=0,cg=0;
         		int notLinked = 0;
-        		cout << gene.get_DNA1();
         		for(int i = 0 ; i < gene.get_DNA1().length() ; i++){
         			switch(gene.get_DNA1()[i]){
         				case 'A':
@@ -282,20 +313,18 @@ class cell: public DNARNA {
 							}
         					break;
 					}
-        			if(notLinked < 5 && at / cg < 3)
-        			{
-        				goodGenes.push_back(gene);
-        				
-					}
+                }
+        		if(notLinked >= 5 || at / cg >= 3){
+                    return true;
 				}
-				
         	}
-			genes = goodGenes;
+			return false;
 		}
+		//small mutation of cell
         void smallMutate(char oldChar, char newChar, int n,int m) {
             genes[m].smallMutate(oldChar, newChar,n);
         }
-        
+        //big mutation of cell
         void bigMutate(string S1,int n1, string S2,int n2) {
         int posD1 = -1;
         int posD2 = -1;
@@ -307,14 +336,13 @@ class cell: public DNARNA {
 			genes[n2].bigMutate(S2,S1);	
 		}
     }
+    	//reverse mutation of a cell
         void reverseMutate(string s1,int n){
         	genes[n].reverseMutate(s1);
 	}
+		//return all palindrom substrings of DNA1
 		void palindrom(int n){
 			find_palindromic_substrings(genes[n].get_DNA1());
 		}
 
 };
-
-
-#endif // MYFILE_H

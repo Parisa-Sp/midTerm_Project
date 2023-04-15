@@ -12,12 +12,14 @@ vector<cell> cells;
 
 int main(){
 	while(true){
+	cout.precision(3);
 	system("CLS");
 	int menu;
 	DNARNA temp;
 	string rnatemp;
 	string dna1temp;
 	string S1,S2;
+	char char1,char2;
 	int n,m;
 	cell tempCell(2);
 	Animal tempAnimal(2);
@@ -32,18 +34,20 @@ int main(){
 	cout << "7.create cell (auto):"<<endl;
 	cout << "8.create cell (manual):"<<endl;
 	cout << "9.get cell values"<<endl;
-	cout << "10.death cell:"<<endl;
+	cout << "10.dead cell:"<<endl;
 	cout << "11.cell big mutation:"<<endl;
 	cout << "12.cell small mutation:"<<endl;
 	cout << "13.cell reverse mutation:"<<endl;
 	cout << "14.cell palindrom:"<<endl;
-	cout << "15.create Animal:"<<endl;
-	cout << "16.get animal values"<<endl;
-	cout << "17.similarity of animals:"<<endl;
-	cout << "18.equality of animals:"<<endl;
-	cout << "19.Asexual reproduction:"<<endl;
-	cout << "20.sexual reproduction:"<<endl;
-	cout << "21.danger of virus:"<<endl;
+	cout << "15.create Animal (auto):"<<endl;
+	cout << "16.create Animal (manual):"<<endl;
+	cout << "17.get animal values"<<endl;
+	cout << "18.dead cell (Animal):"<<endl;
+	cout << "19.similarity of animals:"<<endl;
+	cout << "20.equality of animals:"<<endl;
+	cout << "21.Asexual reproduction:"<<endl;
+	cout << "22.sexual reproduction:"<<endl;
+	cout << "23.danger of virus:"<<endl;
 	cout << "Enter the menu number:";
 	cin >> menu;
 	switch(menu){
@@ -71,9 +75,13 @@ int main(){
 		case 4:
 			cout << "Enter index number of gene:";
 			cin >> index;
+			cout << "Enter char1:";
+			cin >> char1;
+			cout << "Enter char2:";
+			cin >> char2;
 			cout << "Enter number of mutation:";
 			cin >> n;
-			genes[index].smallMutate('A','C',n);
+			genes[index].smallMutate(char1,char2,n);
 			genes[index].print_gene_Data();
 			getch();
 			break;
@@ -118,7 +126,8 @@ int main(){
 		case 10:
 			cout << "Enter index number of cell:";
 			cin >> index;
-			cells[index].deadCell();
+			if (cells[index].deadCell())
+				cells.erase(cells.begin()+index);
 			break;
 		case 11:
 			cout << "Enter index number of cell:";
@@ -136,11 +145,15 @@ int main(){
 		case 12:
 			cout << "Enter index number of cell:";
 			cin >> index;
+			cout << "Enter char1:";
+			cin >> char1;
+			cout << "Enter char2:";
+			cin >> char2;
 			cout << "Enter n:";
 			cin >> n;
 			cout << "Enter m:";
 			cin >> m;
-			cells[index].smallMutate('A','C',n,m);
+			cells[index].smallMutate(char1,char2,n,m);
 			break;	
 		case 13:
 			cout << "Enter index number of cell:";
@@ -167,19 +180,32 @@ int main(){
 			animals.push_back(tempAnimal);
 			break;
 		case 16:
+			cout <<"number of cromesoms of animal:";
+			cin >> index;
+			tempAnimal.set_number_genes(index);
+			tempAnimal.set_genes_manual();
+			animals.push_back(tempAnimal);
+			break;
+		case 17:
 			cout << "Enter index number of animal:";
 			cin >> index;
 			animals[index].display_cell();
 			getch();
 			break;
-		case 17:
+		case 18:
+			cout << "Enter index number of animal:";
+			cin >> index;
+			animals[index].deadCell();
+			break;
+		case 19:
 			cout <<"Enter n-th animal's index':";
 			cin >> n;
 			cout <<"Enter m-th animal's index':";
 			cin >> m;
-			animals[n].similarity(animals[m]);			
+			cout << animals[n].similarity(animals[m]) << endl;		
 			getch();
-		case 18:
+			break;
+		case 20:
 			cout <<"Enter n-th animal's index':";
 			cin >> n;
 			cout <<"Enter m-th animal's index':";
@@ -189,19 +215,20 @@ int main(){
 			else
 				cout <<"they are not the same"<<endl;		
 			getch();
-		case 19:
+			break;
+		case 21:
 			cout <<"Enter n-th animal's index':";
 			cin >> n;
 			animals.push_back(animals[n].AsexualProduction());
 			break;
-		case 20:
+		case 22:
 			cout <<"Enter n-th animal's index':";
 			cin >> n;
 			cout <<"Enter m-th animal's index':";
 			cin >> m;
 			animals.push_back(animals[n]+animals[m]);
 			break;
-		case 21:
+		case 23:
 			cout <<"Enter RNA of virus:";
 			cin >> rnatemp;
 			tempVirus.set_DNARNA(rnatemp,"");
@@ -212,7 +239,7 @@ int main(){
 			else
 				cout <<"it's not dangerous";
 			getch();
-			
+			break;
 		}
 	}
 }

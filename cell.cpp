@@ -244,12 +244,14 @@ class cell: public DNARNA {
         void set_genes_manual(){
         	for(int i = 0 ; i < numberOfGenes ;i++){
         		string dna1 , dna2;
+                DNARNA new_gene;
         		cout << "Enter DNA1 of Chromosome "<< i<<":";
         		cin >> dna1;
                 cout << "Enter DNA2 of Chromosome "<< i<<":";
                 cin >> dna2;
-        		genes[i].set_DNA1(dna1);
-                genes[i].set_DNA2(dna2);
+                new_gene.set_DNA1(dna1);
+                new_gene.set_DNA2(dna2);
+                genes.push_back(new_gene);
 			}
 		}
 		void set_number_genes(int n){
@@ -258,16 +260,20 @@ class cell: public DNARNA {
 		vector<DNARNA> get_genes(){
 			return genes;
 		}
-        
+        void set_genes (vector<DNARNA> a){
+            genes = a;
+        }
+        int get_numberofgenes (){
+            return numberOfGenes;
+        }
         void display_cell(){
             for(int i = 0 ; i < numberOfGenes ;i++){
                 cout << "Chromosome "<< i<< endl;
                 genes[i].print_gene_Data();
             }
         }
-		//death cell function that delete some genes
-        void deadCell(){
-        	vector<DNARNA> goodGenes;
+		//dead cell function that delete cell
+        bool deadCell(){
         	for (auto& gene : genes) {
         		int at=0,cg=0;
         		int notLinked = 0;
@@ -306,14 +312,12 @@ class cell: public DNARNA {
 							}
         					break;
 					}
-        			if(notLinked < 5 && at / cg < 3)
-        			{
-        				goodGenes.push_back(gene);
-					}
+                }
+        		if(notLinked >= 5 || at / cg >= 3){
+                    return true;
 				}
-				
         	}
-			genes = goodGenes;
+			return false;
 		}
 		//small mutation of cell
         void smallMutate(char oldChar, char newChar, int n,int m) {
@@ -341,4 +345,3 @@ class cell: public DNARNA {
 		}
 
 };
-
