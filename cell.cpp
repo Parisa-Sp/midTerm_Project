@@ -4,7 +4,6 @@
 #include <vector>
 using namespace std;
 
-
 vector<int> prefix_function(string s) {
     int n = s.length();
     vector<int> pi(n);
@@ -38,14 +37,6 @@ int KMPSearch(string text, string pattern) {
         }
     }
     return -1;
-}
-//return mirror of a string
-string reverseString(string str) {
-    int n = str.length();
-    for (int i = 0; i < n / 2; i++) {
-        swap(str[i], str[n - i - 1]);
-    }
-    return str;
 }
 //check a string is palindrome or not for DNAs
 bool is_palindrome(string s) {
@@ -111,6 +102,20 @@ public:
     string get_DNA2() {
         return DNA2;
     }
+    //set the first DNA of gene
+    void set_DNA1(string dna1) {
+        DNA1 = dna1;
+    }
+    //set the second DNA of gene
+    void set_DNA2(string dna2) {
+        DNA2 = dna2;
+    }
+    //display genome values
+    void print_gene_Data(){
+	cout << "RNA:" << get_RNA()<<endl;;
+	cout << "DNA1:" << get_DNA1()<<endl;
+	cout << "DNA2:" << get_DNA2()<<endl;
+    }
 	//return complement of a DNA
     string get_DNA_complement(string rna) {
         string complement = "";
@@ -163,7 +168,6 @@ public:
         		newCharC = 'C';
         		break;
 		}
-		cout << newCharC << endl;
         for (int i = 0; i < DNA1.length() && temp > 0; i++) {
             if (DNA1[i] == oldChar) {
                 DNA1[i] = newChar;
@@ -208,10 +212,10 @@ public:
 		}
     }
     //reverse mutation of a gene
-    void reverseMutate(string s1){
-    	string s2 = reverseString(s1);
+    void reverseMutate(string s2){
+        string s1 = s2;
+        reverse(s2.begin() , s2.end());
     	bigMutate(s1,s2);
-    	
 	}
 };
 class cell: public DNARNA {
@@ -221,20 +225,31 @@ class cell: public DNARNA {
     public:
         cell(int n){
         	numberOfGenes = n;
-        	
         }
         
         void add_gene(string DNA1) {
             DNARNA new_gene;
             new_gene.set_DNARNA("",DNA1);
+            new_gene.create_DNA2();
             genes.push_back(new_gene);
         }
-        void set_genes(){
+        void set_genes_auto(){
         	for(int i = 0 ; i < numberOfGenes ;i++){
         		string dna;
         		cout << "Enter DNA of Chromosome "<< i<<":";
         		cin >> dna;
         		add_gene(dna);
+			}
+		}
+        void set_genes_manual(){
+        	for(int i = 0 ; i < numberOfGenes ;i++){
+        		string dna1 , dna2;
+        		cout << "Enter DNA1 of Chromosome "<< i<<":";
+        		cin >> dna1;
+                cout << "Enter DNA2 of Chromosome "<< i<<":";
+                cin >> dna2;
+        		genes[i].set_DNA1(dna1);
+                genes[i].set_DNA2(dna2);
 			}
 		}
 		void set_number_genes(int n){
@@ -243,13 +258,19 @@ class cell: public DNARNA {
 		vector<DNARNA> get_genes(){
 			return genes;
 		}
+        
+        void display_cell(){
+            for(int i = 0 ; i < numberOfGenes ;i++){
+                cout << "Chromosome "<< i<< endl;
+                genes[i].print_gene_Data();
+            }
+        }
 		//death cell function that delete some genes
         void deadCell(){
         	vector<DNARNA> goodGenes;
         	for (auto& gene : genes) {
         		int at=0,cg=0;
         		int notLinked = 0;
-        		cout << gene.get_DNA1();
         		for(int i = 0 ; i < gene.get_DNA1().length() ; i++){
         			switch(gene.get_DNA1()[i]){
         				case 'A':
@@ -288,7 +309,6 @@ class cell: public DNARNA {
         			if(notLinked < 5 && at / cg < 3)
         			{
         				goodGenes.push_back(gene);
-        				
 					}
 				}
 				

@@ -8,7 +8,7 @@
 using namespace std;
 random_device rd;
 mt19937 g(rd());
-//get similarit of two vector of string
+//get similarity of two vector of string
 double get_similarity(const vector<string>& v1, const vector<string>& v2) {
     vector<string> common;
     set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(common));
@@ -110,7 +110,7 @@ class virus:public DNARNA{
 	virus(string rna){
 		set_DNARNA(rna,"");
 	}
-	//check if a virus is dangerous for a animal with checking the longest common substring of genes of them with rna of virus
+	//check if a virus is dangerous for a animal by checking the longest common substring of genes of them with rna of virus
 	bool dangerous(Animal temp){
 		vector<string> DNA1s;
 		vector<string> DNA2s;
@@ -120,8 +120,14 @@ class virus:public DNARNA{
 		}
 		string rna1 = longest_common_substring(DNA1s);
 		string rna2 = longest_common_substring(DNA2s);
-		return rna1 == get_RNA() || rna2 == get_RNA();
+		if (rna1 == get_RNA() || rna2 == get_RNA()){
+			return true;
+		}
+		else if (KMPSearch(get_RNA(),rna1) != -1 || KMPSearch(get_RNA(),rna2) != -1){
+			return true;
+		}
+		else
+			return false;
 	}
 };
-
 
