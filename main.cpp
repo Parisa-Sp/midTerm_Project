@@ -99,7 +99,9 @@ int main(){
 		case 6:
 			cout << "Enter index number of gene:";
 			cin >> index;
-			genes[index].reverseMutate("AT");
+			cout << "Enter S1:";
+			cin >> S1;
+			genes[index].reverseMutate(S1);
 			genes[index].print_gene_Data();
 			getch();
 			break;
